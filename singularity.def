@@ -1,0 +1,9 @@
+Bootstrap: docker
+From: maladmin/ukftractography:latest
+
+%post
+  chmod 755 /opt/run_tractography.py
+  exit 0
+
+%runscript
+  /opt/ukftractography/build/UKFTractography-build/ukf/bin/UKFTractography $@
