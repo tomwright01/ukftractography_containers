@@ -1,5 +1,5 @@
 From ubuntu:xenial
-Label maintainer "Thomas.Wright"
+Label maintainer "Thomas.Wright@camh.ca"
 
 RUN apt-get update \
   && apt-get install --no-install-recommends -y \
