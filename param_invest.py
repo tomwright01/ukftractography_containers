@@ -64,7 +64,7 @@ class QJob(object):
                                                        logfile=logfile,
                                                        errfile=errfile,
                                                        slots=slots))
-        os.chmod(self.qs_n, stat.S_IXUSR)
+        os.chmod(self.qs_n, stat.S_IXUSR | stat.S_IWUSR | stat.S_IRUSR)
         logger.info('Submitting job')
         subprocess.call('qsub < ' + self.qs_n, shell=True)
 
