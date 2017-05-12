@@ -71,11 +71,11 @@ class QJob(object):
 
 def make_job(src_dir, dst_dir, log_dir, scan_name, mask_name, fa_val, out_name, cleanup=True):
     # create a job file from template and use qsub to submit
-    cmd = """
-    ukftractography --numTensor 2 \
-    --tracts /output/{out_name} \
-    --dwiFile /input/{scan_name} \
-    --maskFile /input/{mask_name} \
+    cmd = """ \
+    --numTensor 2 \
+    --tracts /output/tensor_compare/fa_vals/{out_name} \
+    --dwiFile /input/tensor_compare/orig_data/{scan_name} \
+    --maskFile/input/tensor_compare/orig_data/{mask_name} \
     --minFA {fa_val}
     """
     cmd = cmd.format(out_name=out_name,
@@ -97,8 +97,8 @@ def make_job(src_dir, dst_dir, log_dir, scan_name, mask_name, fa_val, out_name, 
 
 
 def launch_jobs():
-    src_dir = '/imaging/scratch/kimel/twright/tensor_compare/orig_data/'
-    dst_dir = '/imaging/scratch/kimel/twright/tensor_compare/fa_vals/'
+    src_dir = '/imaging/scratch/kimel/twright/'
+    dst_dir = '/imaging/scratch/kimel/twright/'
     log_dir = '/imaging/scratch/kimel/twright/tensor_compare/fa_vals/job_logs/'
 
     in_file = 'SPN01_CMH_0001_01_01_DTI60-1000_20_Ax-DTI-60plus5_QCed.nrrd'
