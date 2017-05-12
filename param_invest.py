@@ -11,11 +11,12 @@ CONTAINER = '/imaging/home/kimel/twright/containers/UKFTRACTOGAPHY/ukftractograp
 
 JOB_TEMPLATE = """
 #####################################
-#$ -S /bin/bash
-#$ -wd /tmp/
-#$ -N {name}
-#$ -e {errfile}
-#$ -o {logfile}
+#PBS -N {name}
+#PBS -e {errfile}
+#PBS -o {logfile}
+#PBS -l nodes=1:ppn=8,mem=25gb
+#PBS -l walltime=4:00:00
+#PBS -m twright -M thomas.wright@camh.ca
 #####################################
 echo "------------------------------------------------------------------------"
 echo "Job started on" `date` "on system" `hostname`
@@ -69,6 +70,7 @@ class QJob(object):
 def make_job(src_dir, dst_dir, log_dir, scan_name, mask_name, fa_val, out_name, cleanup=True):
     # create a job file from template and use qsub to submit
     code = """
+    module load PYTHON/2.7.13
     ukftractography --numTensor 2 \
     --tracts /output/{out_name} \
     --dwiFile /input/{scan_name} \
