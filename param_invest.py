@@ -6,6 +6,7 @@ import os
 import tempfile
 import logging
 import numpy as np
+import stat
 
 CONTAINER = '/imaging/home/kimel/twright/containers/UKFTRACTOGAPHY/ukftractography.img'
 
@@ -63,6 +64,7 @@ class QJob(object):
                                                        logfile=logfile,
                                                        errfile=errfile,
                                                        slots=slots))
+        os.chmod(self.qs_n, stat.S_IXUSR)
         logger.info('Submitting job')
         subprocess.call('qsub < ' + self.qs_n, shell=True)
 
