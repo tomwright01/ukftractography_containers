@@ -87,8 +87,8 @@ def make_job(src_dir, dst_dir, log_dir, scan_name, mask_name, fa_val, out_name, 
     with QJob(cleanup=cleanup) as qjob:
         #logfile = '{}:/tmp/output.$JOB_ID'.format(socket.gethostname())
         #errfile = '{}:/tmp/error.$JOB_ID'.format(socket.gethostname())
-        logfile = os.path.join(log_dir, 'output.$JOB_ID')
-        errfile = os.path.join(log_dir, 'error.$JOB_ID')
+        logfile = os.path.join(log_dir, 'output.$PBS_JOBID')
+        errfile = os.path.join(log_dir, 'error.$PBS_JOBID')
         qjob.run(code=code, logfile=logfile, errfile=errfile)
 
 
