@@ -85,7 +85,7 @@ def make_job(src_dir, dst_dir, log_dir, scan_name, mask_name, fa_val,
     --minFA {fa_val}
     """
 
-    cmd_wm = """
+    cmd_wm = """ \
     wm_cluster_subject.py \
     /input/tensor_compare/fa_vals/{in_name} \
     /output/tensor_compare/fa_vals/{cluster_dir}
