@@ -8,7 +8,7 @@ import logging
 import numpy as np
 import stat
 
-CONTAINER = '/imaging/home/kimel/twright/containers/UKFTRACTOGAPHY/ukftractography.img'
+CONTAINER = '/imaging/home/kimel/twright/containers/UKFTRACTOGRAPHY/ukftractography.img'
 
 JOB_TEMPLATE = """
 #####################################
