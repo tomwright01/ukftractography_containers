@@ -8,15 +8,15 @@ import logging
 import numpy as np
 import stat
 
-CONTAINER = '/imaging/home/kimel/twright/containers/UKFTRACTOGRAPHY/ukftractography.img'
-
+CONTAINER_UKF = '/imaging/home/kimel/twright/containers/UKFTRACTOGRAPHY/ukftractography.img'
+CONTAINER_WM = '/imaging/home/kimel/twright/containers/WHITEMATTERANALYSIS/whitematteranalysis.img'
 JOB_TEMPLATE = """
 #####################################
 #PBS -N {name}
 #PBS -e {errfile}
 #PBS -o {logfile}
 #PBS -l nodes=1:ppn=8,mem=25gb
-#PBS -l walltime=4:00:00
+#PBS -l walltime=2:30:00
 #PBS -m abe -M thomas.wright@camh.ca
 #####################################
 echo "------------------------------------------------------------------------"
@@ -32,8 +32,13 @@ CMD_TEMPLATE = """
 singularity run \
     -B {inDir}:/input \
     -B {outDir}:/output \
-    {container} \
-    {cmd}
+    {container_ukf} \
+    {cmd_ukf}
+singularity run \
+    -B {outDir}:/input \
+    -B {outDir}:/output \
+    {container_wm} \
+    {cmd_wm}
 """
 
 
@@ -69,25 +74,40 @@ class QJob(object):
         subprocess.call('qsub < ' + self.qs_n, shell=True)
 
 
-def make_job(src_dir, dst_dir, log_dir, scan_name, mask_name, fa_val, out_name,
+def make_job(src_dir, dst_dir, log_dir, scan_name, mask_name, fa_val,
              cleanup=True):
     # create a job file from template and use qsub to submit
-    cmd = """ \
+    cmd_ukf = """ \
     --numTensor 2 \
     --tracts /output/tensor_compare/fa_vals/{out_name} \
     --dwiFile /input/tensor_compare/orig_data/{scan_name} \
     --maskFile /input/tensor_compare/orig_data/{mask_name} \
     --minFA {fa_val}
     """
-    cmd = cmd.format(out_name=out_name,
-                     scan_name=scan_name,
-                     mask_name=mask_name,
-                     fa_val=fa_val)
+
+    cmd_wm = """
+    wm_cluster_subject.py \
+    /input/tensor_compare/fa_vals/{in_name} \
+    /output/tensor_compare/fa_vals/{cluster_dir}
+    """
+
+    fiber_file = '2tensor_{}.vtk'.format(int(fa_val * 100))
+    cluster_dir = 'clusters_{}'.format(int(fa_val * 100))
+
+    cmd_ukf = cmd_ukf.format(out_name=fiber_file,
+                             scan_name=scan_name,
+                             mask_name=mask_name,
+                             fa_val=fa_val)
+
+    cmd_wm = cmd_wm.format(in_name=fiber_file,
+                           cluster_dir=cluster_dir)
 
     code = CMD_TEMPLATE.format(inDir=src_dir,
                                outDir=dst_dir,
-                               container=CONTAINER,
-                               cmd=cmd)
+                               container_ukf=CONTAINER_UKF,
+                               container_wm=CONTAINER_WM,
+                               cmd_ukf=cmd_ukf,
+                               cmd_wm=cmd_wm)
 
     with QJob(cleanup=cleanup) as qjob:
         #logfile = '{}:/tmp/output.$JOB_ID'.format(socket.gethostname())
@@ -107,14 +127,12 @@ def launch_jobs():
 
     fa_vals = np.arange(0.15, 0.25, 0.01)
     for fa_val in fa_vals:
-        dest_file = '2tensor_{}.vtk'.format(int(fa_val * 100))
         make_job(src_dir,
                  dst_dir,
                  log_dir,
                  in_file,
                  mask_file,
-                 fa_val,
-                 dest_file)
+                 fa_val)
 
 if __name__ == '__main__':
     launch_jobs()
