@@ -58,7 +58,7 @@ class QJob(object):
         except OSError:
             pass
 
-    def run(self, code, name="DTIPrep", logfile="output.$JOB_ID", errfile="error.$JOB_ID", cleanup=True, slots=1):
+    def run(self, code, name="DTIPrep", logfile="output.$JOB_ID", errfile="error.$JOB_ID", slots=1):
         open(self.qs_n, 'w').write(JOB_TEMPLATE.format(script=code,
                                                        name=name,
                                                        logfile=logfile,
@@ -84,7 +84,7 @@ def make_job(src_dir, dst_dir, log_dir, scan_name, mask_name, fa_val, out_name, 
                        mask_name=mask_name,
                        fa_val=fa_val)
 
-    with QJob() as qjob:
+    with QJob(cleanup=cleanup) as qjob:
         #logfile = '{}:/tmp/output.$JOB_ID'.format(socket.gethostname())
         #errfile = '{}:/tmp/error.$JOB_ID'.format(socket.gethostname())
         logfile = os.path.join(log_dir, 'output.$JOB_ID')
