@@ -17,7 +17,7 @@ JOB_TEMPLATE = """
 #PBS -o {logfile}
 #PBS -l nodes=1:ppn=8,mem=25gb
 #PBS -l walltime=4:00:00
-#PBS -m twright -M thomas.wright@camh.ca
+#PBS -m abe -M thomas.wright@camh.ca
 #####################################
 echo "------------------------------------------------------------------------"
 echo "Job started on" `date` "on system" `hostname`
