@@ -69,7 +69,7 @@ class QJob(object):
         subprocess.call('qsub < ' + self.qs_n, shell=True)
 
 
-def make_job(src_dir, dst_dir, log_dir, scan_name, mask_name, fa_val, out_name, cleanup=True):
+def make_job(src_dir, dst_dir, log_dir, scan_name, mask_name, fa_val, out_name, cleanup=False):
     # create a job file from template and use qsub to submit
     code = """
     module load PYTHON/2.7.13
