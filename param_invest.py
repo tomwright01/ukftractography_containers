@@ -71,18 +71,22 @@ class QJob(object):
 
 def make_job(src_dir, dst_dir, log_dir, scan_name, mask_name, fa_val, out_name, cleanup=False):
     # create a job file from template and use qsub to submit
-    code = """
-    module load PYTHON/2.7.13
+    cmd = """
     ukftractography --numTensor 2 \
     --tracts /output/{out_name} \
     --dwiFile /input/{scan_name} \
     --maskFile /input/{mask_name} \
     --minFA {fa_val}
     """
-    code = code.format(out_name=out_name,
+    cmd = cmd.format(out_name=out_name,
                        scan_name=scan_name,
                        mask_name=mask_name,
                        fa_val=fa_val)
+
+   code = CMD_TEMPLATE.format(inDir=src_dir,
+                              outDir=dst_dir,
+                              container=CONTAINER,
+                              cmd=cmd)
 
     with QJob(cleanup=cleanup) as qjob:
         #logfile = '{}:/tmp/output.$JOB_ID'.format(socket.gethostname())
