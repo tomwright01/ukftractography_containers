@@ -58,7 +58,7 @@ class QJob(object):
         except OSError:
             pass
 
-    def run(self, code, name="DTIPrep", logfile="output.$JOB_ID", errfile="error.$JOB_ID", slots=1):
+    def run(self, code, name="DTIPrep", logfile="output.$PBS_JOBID", errfile="error.$PBS_JOBID", slots=1):
         open(self.qs_n, 'w').write(JOB_TEMPLATE.format(script=code,
                                                        name=name,
                                                        logfile=logfile,
