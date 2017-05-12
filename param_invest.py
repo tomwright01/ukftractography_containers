@@ -69,13 +69,14 @@ class QJob(object):
         subprocess.call('qsub < ' + self.qs_n, shell=True)
 
 
-def make_job(src_dir, dst_dir, log_dir, scan_name, mask_name, fa_val, out_name, cleanup=True):
+def make_job(src_dir, dst_dir, log_dir, scan_name, mask_name, fa_val, out_name,
+             cleanup=True):
     # create a job file from template and use qsub to submit
     cmd = """ \
     --numTensor 2 \
     --tracts /output/tensor_compare/fa_vals/{out_name} \
     --dwiFile /input/tensor_compare/orig_data/{scan_name} \
-    --maskFile/input/tensor_compare/orig_data/{mask_name} \
+    --maskFile /input/tensor_compare/orig_data/{mask_name} \
     --minFA {fa_val}
     """
     cmd = cmd.format(out_name=out_name,
