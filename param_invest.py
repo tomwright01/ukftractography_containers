@@ -79,14 +79,14 @@ def make_job(src_dir, dst_dir, log_dir, scan_name, mask_name, fa_val, out_name, 
     --minFA {fa_val}
     """
     cmd = cmd.format(out_name=out_name,
-                       scan_name=scan_name,
-                       mask_name=mask_name,
-                       fa_val=fa_val)
+                     scan_name=scan_name,
+                     mask_name=mask_name,
+                     fa_val=fa_val)
 
-   code = CMD_TEMPLATE.format(inDir=src_dir,
-                              outDir=dst_dir,
-                              container=CONTAINER,
-                              cmd=cmd)
+    code = CMD_TEMPLATE.format(inDir=src_dir,
+                               outDir=dst_dir,
+                               container=CONTAINER,
+                               cmd=cmd)
 
     with QJob(cleanup=cleanup) as qjob:
         #logfile = '{}:/tmp/output.$JOB_ID'.format(socket.gethostname())
