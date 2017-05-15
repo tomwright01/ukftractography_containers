@@ -15,7 +15,7 @@ JOB_TEMPLATE = """
 #PBS -N {name}
 #PBS -e {errfile}
 #PBS -o {logfile}
-#PBS -l nodes=1:ppn=8,mem=25gb
+#PBS -l nodes=1:ppn=2,mem=25gb
 #PBS -l walltime=2:30:00
 #PBS -m abe -M thomas.wright@camh.ca
 #####################################
