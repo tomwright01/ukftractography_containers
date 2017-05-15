@@ -118,8 +118,8 @@ def make_job(src_dir, dst_dir, log_dir, scan_name, mask_name, fa_val,
 
 
 def launch_jobs():
-    src_dir = '/imaging/scratch/kimel/twright/'
-    dst_dir = '/imaging/scratch/kimel/twright/'
+    src_dir = '/imaging/scratch/kimel/twright'
+    dst_dir = '/imaging/scratch/kimel/twright'
     log_dir = '/imaging/scratch/kimel/twright/tensor_compare/fa_vals/job_logs/'
 
     in_file = 'SPN01_CMH_0001_01_01_DTI60-1000_20_Ax-DTI-60plus5_QCed.nrrd'
